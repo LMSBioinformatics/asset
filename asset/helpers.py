@@ -18,7 +18,7 @@ def md5_digest(path: Path) -> str:
     return digest.hexdigest()
 
 
-def make_key(asset_net: [nx.DiGraph | None]=None) -> str:
+def make_key(asset_net=None) -> str:
     ''' Generate a random id '''
 
     k = '{:08x}'.format(randrange(16**8))
