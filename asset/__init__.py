@@ -1,0 +1,7 @@
+__prog__ = 'asset'
+__version__ = '0.1'
+__author__ = 'George Young'
+__maintainer__ = 'George Young'
+__email__ = 'bioinformatics@lms.mrc.ac.uk'
+__status__ = 'Development'
+__license__ = 'MIT license'
