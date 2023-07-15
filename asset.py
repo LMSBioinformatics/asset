@@ -223,16 +223,15 @@ if __name__ == '__main__':
     # print(args)
 
     # Run the relevant command from asset.commands
-    match args.command:
-        case 'init':
-            init_yaml(args)
-        case 'avail' | 'spider':
-            asset_avail(args)
-        case 'pull':
-            asset_pull(args)
-        case 'add':
-            asset_add(args)
-        case 'mod':
-            asset_mod(args)
-        case 'del':
-            asset_del(args)
+    if args.command == 'init':
+        init_yaml(args)
+    elif args.command in ('avail', 'spider'):
+        asset_avail(args)
+    elif args.command == 'pull':
+        asset_pull(args)
+    elif args.command == 'add':
+        asset_add(args)
+    elif args.command == 'mod':
+        asset_mod(args)
+    elif args.command == 'del':
+        asset_del(args)
