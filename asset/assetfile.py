@@ -162,16 +162,15 @@ def add_to_nx(args: Namespace, asset_net: nx.DiGraph) -> None:
             Path(asset_net.graph['store'], parent if args.inherit else name)
         path = args.item.resolve()
         meta['item'] = f'{dest_base}{"".join(path.suffixes)}'
-        match args.mode:
-            case 'copy':
-                if path.is_dir():
-                    shutil.copytree(path, meta['item'])
-                else:
-                    shutil.copy2(path, meta['item'])
-            case 'move':
-                shutil.move(path, meta['item'])
-            case 'link':
-                os.symlink(path, meta['item'])
+        if args.mode == 'copy':
+            if path.is_dir():
+                shutil.copytree(path, meta['item'])
+            else:
+                shutil.copy2(path, meta['item'])
+        elif args.mode == 'move':
+            shutil.move(path, meta['item'])
+        elif args.mode == 'link':
+            os.symlink(path, meta['item'])
         meta['size'] = du(path)
         if args.digest and not path.is_dir():
             meta['md5'] = md5_digest(meta['item'])
@@ -293,16 +292,15 @@ def mod_nx_node(args: Namespace, asset_net: nx.DiGraph) -> None:
             Path(asset_net.graph['store'], parent if args.inherit else node).resolve()
         path = args.item.resolve()
         meta['item'] = f'{dest_base}{"".join(path.suffixes)}'
-        match args.mode:
-            case 'copy':
-                if path.is_dir():
-                    shutil.copytree(path, meta['item'])
-                else:
-                    shutil.copy2(path, meta['item'])
-            case 'move':
-                shutil.move(path, meta['item'])
-            case 'link':
-                os.symlink(path, meta['item'])
+        if args.mode == 'copy':
+            if path.is_dir():
+                shutil.copytree(path, meta['item'])
+            else:
+                shutil.copy2(path, meta['item'])
+        elif args.mode == 'move':
+            shutil.move(path, meta['item'])
+        elif args.mode == 'link':
+            os.symlink(path, meta['item'])
         meta['size'] = du(path)
         if args.digest and not path.is_dir():
             meta['md5'] = md5_digest(meta['item'])
