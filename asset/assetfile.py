@@ -8,7 +8,7 @@ import shutil
 import sys
 
 from asset import __prog__, __version__, __status__
-from asset.helpers import du, make_key, md5_digest, dir_exists_or_create, file_exists_or_creatable
+from asset.helpers import du, make_key, md5_digest, file_exists_or_creatable
 
 import networkx as nx
 import yaml
@@ -48,7 +48,6 @@ def get_asset_path() -> list:
 def init_yaml(args: Namespace) -> None:
     ''' Initialise a YAML asset description file '''
 
-    dir_exists_or_create(args.store, args.mkdir)
     file_exists_or_creatable(args.path, args.mkdir, args.force)
     with open(args.path, 'w') as F:
         print(yaml_header, file=F)
@@ -128,8 +127,7 @@ def resolve_node(
 def add_to_nx(args: Namespace, asset_net: nx.DiGraph) -> None:
     ''' Add an asset/collection to the asset network '''
 
-    if args.inherit and not args.parent:
-        print(f'Cannot `--inherit` without a parent')
+
     if args.parent:
         parent_search = resolve_node(asset_net, args.parent)
         if len(parent_search) > 1:
@@ -155,25 +153,16 @@ def add_to_nx(args: Namespace, asset_net: nx.DiGraph) -> None:
     meta['alias'] = args.alias
     if args.description:
         meta['description'] = args.description
+    if args.command:
+        meta['command'] = args.command
     if args.tag:
         meta['tag'] = args.tag
     if args.item:
-        dest_base = \
-            Path(asset_net.graph['store'], parent if args.inherit else name)
-        path = args.item.resolve()
-        meta['item'] = f'{dest_base}{"".join(path.suffixes)}'
-        if args.mode == 'copy':
-            if path.is_dir():
-                shutil.copytree(path, meta['item'])
-            else:
-                shutil.copy2(path, meta['item'])
-        elif args.mode == 'move':
-            shutil.move(path, meta['item'])
-        elif args.mode == 'link':
-            os.symlink(path, meta['item'])
-        meta['size'] = du(path)
-        if args.digest and not path.is_dir():
-            meta['md5'] = md5_digest(meta['item'])
+        args.item = args.item.resolve()
+        meta['item'] = args.item
+        if args.item.is_file():
+            meta['size'] = du(args.item)
+            meta['md5'] = md5_digest(args.item)
     asset_net.add_node(name, **meta)
     if args.parent:
         asset_net.add_edge(parent, name)
@@ -259,8 +248,6 @@ def mod_nx_node(args: Namespace, asset_net: nx.DiGraph) -> None:
         parent = parent[0]
         search = [n for n in asset_net.successors(parent) if n != node]
     else:
-        if args.inherit:
-            print(f'Cannot `--inherit` without a parent')
         search = list(n for n, d in asset_net.in_degree() if d == 0)
 
     if args.alias or args.tag:
@@ -281,26 +268,12 @@ def mod_nx_node(args: Namespace, asset_net: nx.DiGraph) -> None:
 
     if args.description:
         meta['description'] = args.description
+    if args.command:
+        meta['command'] = args.command
 
     if args.item:
-        if 'item' in meta:
-            if (path := Path(meta['item'])).is_dir():
-                shutil.rmtree(path)
-            else:
-                path.unlink()
-        dest_base = \
-            Path(asset_net.graph['store'], parent if args.inherit else node).resolve()
-        path = args.item.resolve()
-        meta['item'] = f'{dest_base}{"".join(path.suffixes)}'
-        if args.mode == 'copy':
-            if path.is_dir():
-                shutil.copytree(path, meta['item'])
-            else:
-                shutil.copy2(path, meta['item'])
-        elif args.mode == 'move':
-            shutil.move(path, meta['item'])
-        elif args.mode == 'link':
-            os.symlink(path, meta['item'])
-        meta['size'] = du(path)
-        if args.digest and not path.is_dir():
-            meta['md5'] = md5_digest(meta['item'])
+        args.item = args.item.resolve()
+        meta['item'] = args.item
+        if args.item.is_file():
+            meta['size'] = du(args.item)
+            meta['md5'] = md5_digest(args.item)

@@ -79,7 +79,10 @@ parser.add_argument(
     action='version', version=f'{__prog__} v{__version__} ({__status__})',
     help='show the program version and exit')
 
-# user presented
+#
+# asset avail
+#
+
 commands['avail'] = commands['spider'] = subparsers.add_parser(
     'avail',
     aliases=['spider'],
@@ -93,7 +96,10 @@ commands['avail'].add_argument(
     '--exact', action='store_true',
     help='disable fuzzy matching')
 
-# user presented
+#
+# asset pull
+#
+
 commands['pull'] = subparsers.add_parser(
     'pull',
     help='retrieve the location of an asset',
@@ -103,9 +109,13 @@ commands['pull'].add_argument(
     'search', type=str,
     help='asset search path')
 
-# user hidden (no help text)
+#
+# asset init
+#
+
 commands['init'] = subparsers.add_parser(
     'init',
+    help='create a new asset description file',
     description='create a new asset description file',
     formatter_class=ArgumentDefaultsRichHelpFormatter)
 commands['init'].add_argument(
@@ -115,79 +125,82 @@ commands['init'].add_argument(
     'store', type=Path,
     help='data store location')
 commands['init'].add_argument(
-    '--mkdir', action='store_true',
-    help='create directory for `store` if necessary')
-commands['init'].add_argument(
     '--force', action='store_true',
     help='overwrite existing asset description file')
 
-# user hidden (no help text)
+#
+# asset add
+#
+
 commands['add'] = subparsers.add_parser(
     'add',
+    help='add an asset or collection',
     description='add an asset or collection',
     formatter_class=ArgumentDefaultsRichHelpFormatter)
-commands['add'] .add_argument(
-    '--alias', type=str, nargs='+', required=True,
-    help='name(s) to register')
-commands['add'] .add_argument(
-    '--tag', type=str, nargs='+', default=None,
-    help='tag(s) to associate')
-commands['add'] .add_argument(
+commands['add'].add_argument(
     '--item', type=Path, default=None,
     help='path to asset')
-commands['add'] .add_argument(
+commands['add'].add_argument(
+    '--alias', type=str, nargs='+', required=True,
+    help='name(s) to register for the asset or collection')
+commands['add'].add_argument(
+    '--tag', type=str, nargs='+', default=None,
+    help='tag(s) to associate')
+commands['add'].add_argument(
     '--parent', type=str,
     help='parent of the asset or collection')
-commands['add'] .add_argument(
-    '--inherit', action='store_true',
-    help='make item discoverable with the same basename as its parent')
-commands['add'] .add_argument(
+commands['add'].add_argument(
     '--description', type=str,
     help='description text')
-commands['add'] .add_argument(
-    '--mode', type=str, choices=['copy', 'move', 'link'], default='link',
-    help='copy or move asset(s) into the store or link in place')
-commands['add'] .add_argument(
+commands['add'].add_argument(
+    '--command', type=str,
+    help='cli command used to generate the asset')
+commands['add'].add_argument(
     '--nodigest', dest='digest', action='store_false',
     help='don\'t calculate md5 digests for file assets')
 
-# user hidden (no help text)
+#
+# asset mod
+#
+
 commands['mod'] = subparsers.add_parser(
     'mod',
+    help='modify an asset or collection',
     description='modify an asset or collection',
     formatter_class=ArgumentDefaultsRichHelpFormatter)
 commands['mod'].add_argument(
     'search', type=str, nargs='?',
     help='complete or partial asset path or search term')
-commands['mod'] .add_argument(
-    '--alias', type=str, nargs='+',
-    help='replacement name(s) to register')
-commands['mod'] .add_argument(
-    '--tag', type=str, nargs='+', default=None,
-    help='replacement tag(s) to associate')
-commands['mod'] .add_argument(
+commands['mod'].add_argument(
     '--item', type=Path, default=None,
     help='replacement path to asset')
-commands['mod'] .add_argument(
+commands['mod'].add_argument(
+    '--alias', type=str, nargs='+',
+    help='replacement name(s) to register for the asset or collection')
+commands['mod'].add_argument(
+    '--tag', type=str, nargs='+', default=None,
+    help='replacement tag(s) to associate')
+commands['mod'].add_argument(
     '--parent', type=str,
     help='replacement parent of the asset or collection')
-commands['mod'] .add_argument(
-    '--inherit', action='store_true',
-    help='make item discoverable with the same basename as its parent')
-commands['mod'] .add_argument(
+commands['mod'].add_argument(
     '--description', type=str,
     help='replacement description text')
-commands['mod'] .add_argument(
-    '--mode', type=str, choices=['copy', 'move', 'link'], default='link',
-    help='copy or move asset(s) into the store or link in place')
-commands['mod'] .add_argument(
+commands['add'].add_argument(
+    '--command', type=str,
+    help='replacement cli command used to generate the asset')
+commands['mod'].add_argument(
     '--nodigest', dest='digest', action='store_false',
     help='don\'t calculate md5 digests for file assets')
 
-# user hidden (no help text)
+#
+# asset del
+#
+
 commands['del'] = subparsers.add_parser(
     'del',
-    description="delete an asset",
+    help='cdelete an asset',
+    description='delete an asset',
     formatter_class=ArgumentDefaultsRichHelpFormatter)
 commands['del'].add_argument(
     'search', type=str,
