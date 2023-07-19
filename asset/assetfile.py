@@ -198,7 +198,7 @@ def search_nodes(
     return asset_net.subgraph(search_nodes | nodes)
 
 
-def retrieve_item(asset_net: nx.DiGraph, search: str) -> str:
+def retrieve_item(asset_net: nx.DiGraph, search: str) -> Path:
     ''' Retrieve an item from the asset network '''
 
     asset_sub_net = search_nodes(asset_net, search, False, False, False)
@@ -208,7 +208,7 @@ def retrieve_item(asset_net: nx.DiGraph, search: str) -> str:
     if len(asset_sub_net) == 0 \
             or 'item' not in (meta := asset_net.nodes[list(asset_sub_net.nodes)[0]]):
         return ''
-    return meta['item']
+    return Path(meta['item']).resolve()
 
 
 def del_from_nx(args: Namespace, asset_net: nx.DiGraph) -> None:

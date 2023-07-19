@@ -67,4 +67,6 @@ def file_exists_or_creatable(path: Path, mkdir: bool=False, force: bool=False) -
 def du(path: Path) -> int:
     ''' Return the size of a file or directory (recursive) '''
 
+    if path.is_file():
+        return path.stat().st_size
     return sum(f.stat().st_size for f in path.rglob('*') if f.is_file())
