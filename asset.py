@@ -120,10 +120,7 @@ commands['init'] = subparsers.add_parser(
     formatter_class=ArgumentDefaultsRichHelpFormatter)
 commands['init'].add_argument(
     'path', type=Path,
-    help='asset description file')
-commands['init'].add_argument(
-    'store', type=Path,
-    help='data store location')
+    help='path for asset description file')
 commands['init'].add_argument(
     '--force', action='store_true',
     help='overwrite existing asset description file')
@@ -193,7 +190,7 @@ commands['mod'].add_argument(
 
 commands['del'] = subparsers.add_parser(
     'del',
-    help='cdelete an asset',
+    help='delete an asset',
     description='delete an asset',
     formatter_class=ArgumentDefaultsRichHelpFormatter)
 commands['del'].add_argument(
