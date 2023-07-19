@@ -51,7 +51,7 @@ def init_yaml(args: Namespace) -> None:
     file_exists_or_creatable(args.path, args.mkdir, args.force)
     with open(args.path, 'w') as F:
         print(yaml_header, file=F)
-        dump_yaml({'store': str(args.store), 'assets': {}}, F)
+        dump_yaml({'assets': {}}, F)
 
 
 def yaml_to_nx(path: Path) -> nx.DiGraph:
@@ -81,7 +81,7 @@ def nx_to_yaml(asset_net: nx.DiGraph) -> None:
     tmpfile = Path(f'{asset_net.graph["path"]}.tmp')
     with open(tmpfile, 'w') as F:
         print(yaml_header, file=F)
-        dump_yaml({'store': asset_net.graph['store'], 'assets': assets}, F)
+        dump_yaml({'assets': assets}, F)
     shutil.move(tmpfile, Path(asset_net.graph["path"]))
 
 
