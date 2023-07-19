@@ -155,9 +155,6 @@ commands['add'].add_argument(
 commands['add'].add_argument(
     '--cli', type=str,
     help='cli command used to generate the asset')
-commands['add'].add_argument(
-    '--nodigest', dest='digest', action='store_false',
-    help='don\'t calculate md5 digests for file assets')
 
 #
 # asset mod
@@ -186,12 +183,9 @@ commands['mod'].add_argument(
 commands['mod'].add_argument(
     '--description', type=str,
     help='replacement description text')
-commands['add'].add_argument(
+commands['mod'].add_argument(
     '--cli', type=str,
     help='replacement cli command used to generate the asset')
-commands['mod'].add_argument(
-    '--nodigest', dest='digest', action='store_false',
-    help='don\'t calculate md5 digests for file assets')
 
 #
 # asset del
