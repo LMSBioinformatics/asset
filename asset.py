@@ -122,6 +122,9 @@ commands['init'].add_argument(
     'path', type=Path,
     help='path for asset description file')
 commands['init'].add_argument(
+    '--mkdir', action='store_true',
+    help='create directories are required')
+commands['init'].add_argument(
     '--force', action='store_true',
     help='overwrite existing asset description file')
 

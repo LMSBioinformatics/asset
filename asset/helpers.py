@@ -42,6 +42,18 @@ def convert_size(size_bytes: int) -> str:
     return f'{size_bytes / p:.{size_precis[i]}f} {size_string[i]}'
 
 
+def dir_exists_or_create(path: Path, mkdir: bool=False) -> None:
+    ''' Check if a directory exist, make it if requested '''
+
+    if (path := path.resolve()).is_dir():
+        return
+    if mkdir:
+        path.mkdir(parents=True, exist_ok=True)
+    else:
+        print(f'Directory {path} does not exist, cannot continue unless instructed')
+        sys.exit(1)
+
+
 def file_exists_or_creatable(path: Path, mkdir: bool=False, force: bool=False) -> None:
     ''' Check if a file exists and whether it can be created '''
 
