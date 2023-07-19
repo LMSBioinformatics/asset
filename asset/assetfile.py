@@ -153,8 +153,8 @@ def add_to_nx(args: Namespace, asset_net: nx.DiGraph) -> None:
     meta['alias'] = args.alias
     if args.description:
         meta['description'] = args.description
-    if args.command:
-        meta['command'] = args.command
+    if args.cli:
+        meta['cli'] = args.cli
     if args.tag:
         meta['tag'] = args.tag
     if args.item:
@@ -268,8 +268,8 @@ def mod_nx_node(args: Namespace, asset_net: nx.DiGraph) -> None:
 
     if args.description:
         meta['description'] = args.description
-    if args.command:
-        meta['command'] = args.command
+    if args.cli:
+        meta['cli'] = args.cli
 
     if args.item:
         args.item = args.item.resolve()
