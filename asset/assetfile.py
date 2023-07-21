@@ -60,7 +60,7 @@ def yaml_to_nx(path: Path) -> nx.DiGraph:
     with open(path) as F:
         yaml_data = load_yaml(F)
     edges = []
-    asset_net = nx.DiGraph(path=str(path), store=yaml_data['store'])
+    asset_net = nx.DiGraph(path=str(path))
     for name, meta in yaml_data['assets'].items():
         if 'parent' in meta:
             edges.append((meta.pop('parent'), name))
