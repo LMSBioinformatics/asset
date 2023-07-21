@@ -159,7 +159,7 @@ def add_to_nx(args: Namespace, asset_net: nx.DiGraph) -> None:
         meta['tag'] = args.tag
     if args.item:
         args.item = args.item.resolve()
-        meta['item'] = args.item
+        meta['item'] = f'{args.item}'
         if args.item.is_file():
             meta['size'] = du(args.item)
             meta['md5'] = md5_digest(args.item)
@@ -273,7 +273,7 @@ def mod_nx_node(args: Namespace, asset_net: nx.DiGraph) -> None:
 
     if args.item:
         args.item = args.item.resolve()
-        meta['item'] = args.item
+        meta['item'] = f'{args.item}'
         if args.item.is_file():
             meta['size'] = du(args.item)
             meta['md5'] = md5_digest(args.item)
