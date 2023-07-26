@@ -2,7 +2,7 @@ from argparse import Namespace
 from datetime import datetime
 from functools import partial
 import os
-from pathlib import Path
+from pathlib import Path, PurePath
 import re
 import shutil
 import sys
