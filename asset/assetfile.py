@@ -153,8 +153,6 @@ def add_to_nx(args: Namespace, asset_net: nx.DiGraph) -> None:
     meta['alias'] = args.alias
     if args.description:
         meta['description'] = args.description
-    if args.cli:
-        meta['cli'] = args.cli
     if args.tag:
         meta['tag'] = args.tag
     if args.item:
@@ -165,6 +163,8 @@ def add_to_nx(args: Namespace, asset_net: nx.DiGraph) -> None:
             meta['md5'] = md5_digest(args.item)
         elif args.item.is_dir():
             meta['size'] = du(args.item)
+        if args.cli:
+            meta['cli'] = args.cli
     asset_net.add_node(name, **meta)
     if args.parent:
         asset_net.add_edge(parent, name)

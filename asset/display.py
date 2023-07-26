@@ -34,6 +34,8 @@ def display_tree(asset_net: nx.DiGraph, detail: bool=False) -> Tree:
             if (description := meta.get('description', '')):
                 text += f'\n{description}'
             if 'item' in meta:
+                if (cli := meta.get('cli', '')):
+                    text += f'\n[bright_black][{cli}][/bright_black]'
                 text += \
                     f'\n[bright_black]created={meta["create_time"]}' \
                     f'\tupdated={meta["update_time"]}' \
