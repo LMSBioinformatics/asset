@@ -1,7 +1,7 @@
 
 from hashlib import md5
 import math
-from pathlib import Path
+from pathlib import Path, PurePath
 from random import randrange
 import sys
 
