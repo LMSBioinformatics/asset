@@ -269,12 +269,13 @@ def mod_nx_node(args: Namespace, asset_net: nx.DiGraph) -> None:
 
     if args.description:
         meta['description'] = args.description
-    if args.cli:
-        meta['cli'] = args.cli
 
     if args.item:
         args.item = args.item.resolve()
         meta['item'] = f'{args.item}'
+        if (size := du(args.item)):
+            meta['size'] = size
         if args.item.is_file():
-            meta['size'] = du(args.item)
             meta['md5'] = md5_digest(args.item)
+        if args.cli:
+            meta['cli'] = args.cli
