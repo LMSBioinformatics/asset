@@ -158,10 +158,10 @@ def add_to_nx(args: Namespace, asset_net: nx.DiGraph) -> None:
     if args.item:
         args.item = args.item.resolve()
         meta['item'] = f'{args.item}'
-        if args.item.exists():
-            meta['size'] = du(args.item)
-            if args.item.is_file():
-                meta['md5'] = md5_digest(args.item)
+        if (size := du(args.item)):
+            meta['size'] = size
+        if args.item.is_file():
+            meta['md5'] = md5_digest(args.item)
         if args.cli:
             meta['cli'] = args.cli
     asset_net.add_node(name, **meta)

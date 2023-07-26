@@ -69,4 +69,13 @@ def du(path: Path) -> int:
 
     if path.is_file():
         return path.stat().st_size
-    return sum(f.stat().st_size for f in path.rglob('*') if f.is_file())
+    if path.is_dir():
+        return sum(
+            f.stat().st_size
+            for f in path.rglob('*')
+            if f.is_file())
+    # return sizes of items with a shared trunk
+    return sum(
+        f.stat().st_size
+        for f in path.parent.rglob(f'{PurePath(p).name}*')
+        if f.is_file())
