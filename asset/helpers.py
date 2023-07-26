@@ -77,5 +77,5 @@ def du(path: Path) -> int:
     # return sizes of items with a shared trunk
     return sum(
         f.stat().st_size
-        for f in path.parent.rglob(f'{PurePath(p).name}*')
+        for f in path.parent.rglob(f'{PurePath(path).name}*')
         if f.is_file())
