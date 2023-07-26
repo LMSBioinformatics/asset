@@ -38,8 +38,9 @@ def display_tree(asset_net: nx.DiGraph, detail: bool=False) -> Tree:
                     text += f'\n[bright_black][{cli}][/bright_black]'
                 text += \
                     f'\n[bright_black]created={meta["create_time"]}' \
-                    f'\tupdated={meta["update_time"]}' \
-                    f'\nsize={convert_size(meta["size"])}' \
-                    f'''\t{f"md5={meta['md5']}" if "md5" in meta else ""}[/bright_black]'''
+                    f'\tupdated={meta["update_time"]}'
+                if (size := meta.get('size', '')):
+                    text += f'\nsize={convert_size(meta["size"])}'
+                text += f'''\t{f"md5={meta['md5']}" if "md5" in meta else ""}[/bright_black]'''
         _add_to_tree(node, text)
     return tree
